@@ -1,0 +1,11 @@
+/* InitialLayout */
+.seccion__logo__inilay .contenedor__logo {
+    padding: 1rem 0;
+}
+.seccion__logo__inilay .logo__imagen {
+    margin: 0 auto;
+    width: 30rem;
+}
+.seccion__contenido__inilay {
+    padding: 1rem 0;
+}
