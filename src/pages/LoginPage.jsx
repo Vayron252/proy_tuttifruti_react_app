@@ -26,8 +26,8 @@ const LoginPage = () => {
     const info_bd = await getUserByCredentials(celular, password);
     const { data } = info_bd;
     if (Object.keys(data).length > 0) {
-      const { nombreusu, apellidousu } = data;
-      setUserLogued({ name: nombreusu, lastname: apellidousu });
+      const { nombreusu, apellidousu, apodousu } = data;
+      setUserLogued({ name: nombreusu, lastname: apellidousu, nickname: apodousu });
       Swal.fire({
         title: "Bienvenido",
         text: `${nombreusu} ${apellidousu}`,

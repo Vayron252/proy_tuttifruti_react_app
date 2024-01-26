@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { ChargingScreen } from './components/helpers/ChargingScreen'
 import loadable from "@loadable/component"
 import { InitialLayout } from './layouts/InitialLayout'
-import { MainLayout } from './layouts/MainLayout'
+import { NavigationLayout } from './layouts/NavigationLayout'
 import { AppContextProvider } from './contexts/AppContext'
 import { loaderJoinHall } from './pages/JoinHallPage'
 
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <MainLayout />,
+    element: <NavigationLayout />,
     children: [
       {
         path: '/menu',

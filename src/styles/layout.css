@@ -9,3 +9,15 @@
 .seccion__contenido__inilay {
     padding: 1rem 0;
 }
+
+/* NavigationLayout */
+.seccion__logo__navilay .contenedor__logo {
+    padding: 1rem 0;
+}
+.seccion__logo__navilay .logo__imagen {
+    margin: 0 auto;
+    width: 25rem;
+}
+.seccion__contenido__navilay {
+    padding: 1rem 0;
+}

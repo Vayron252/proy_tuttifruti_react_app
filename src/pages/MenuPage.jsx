@@ -14,9 +14,9 @@ const MenuPage = () => {
     }
 
     return (
-        <div className="seccion__opciones contenedor">
-            <button onClick={handleNewHall} className="opcion__crear__sala">Crear Sala</button>
-            <button onClick={handleListHalls} className="opcion__unirse__sala">Unirse a la Sala</button>
+        <div className="contenido__opciones__menu">
+            <button onClick={handleNewHall} className="opciones__menu__crear__sala">Crear Sala</button>
+            <button onClick={handleListHalls} className="opciones__menu__unirse__sala">Unirse a la Sala</button>
         </div>
     )
 }

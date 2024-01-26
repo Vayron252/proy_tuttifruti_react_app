@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { getDateHourNow } from '../utils/helpers'
 import { registerHall } from '../data/tuttifrutiAPI'
 import Swal from 'sweetalert2'
+import '../styles/stylespages.css'
 
 
 const NewHallPage = () => {
@@ -47,7 +48,7 @@ const NewHallPage = () => {
     let inputsCateg = '';
     let contador = 1;
     while (contador <= cantidad) {
-      inputsCateg += `<input type="text" id="categ-${contador}" placeholder="Ingrese la categoría" />`
+      inputsCateg += `<input class="nueva__sala__categoria__juego" type="text" id="categ-${contador}" placeholder="Ingrese la categoría" />`
       contador++;
     }
     contenedorCategRef.current.innerHTML = inputsCateg;
@@ -65,34 +66,41 @@ const NewHallPage = () => {
   }
 
   return (
-    <div className="seccion__nueva__sala">
-      <h2 className="nueva__sala__titulo">Nueva Sala</h2>
-      <form onSubmit={handleCreateNewHall} className="">
-        <div className="">
-          <label htmlFor="nombresal">Nombre de la sala:</label>
-          <input onChange={handleInputChange} name="nombresal" id="nombresal" type="text" placeholder="Ingrese el nombre de la sala" />
+    <div className="contenido__nueva__sala">
+      <form onSubmit={handleCreateNewHall} className="formulario__nueva__sala">
+        <h2 className="nueva__sala__titulo">Nueva Sala</h2>
+        <div className="nueva__sala__datos">
+          <div className="nueva__sala__campo">
+            <label className="nueva__sala__campo__etiqueta" htmlFor="nombresal">Nombre de la sala:</label>
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="nombresal" id="nombresal" type="text" placeholder="Ingrese el nombre de la sala" />
+          </div>
+          <div>
+            <label className="nueva__sala__campo__etiqueta" htmlFor="cantpartsal">Cant. Participantes:</label>
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantpartsal" id="cantpartsal" type="number" placeholder="Ingrese la cantidad de participantes" />
+          </div>
+          <div>
+            <label className="nueva__sala__campo__etiqueta" htmlFor="cantcategsal">Cant. Categorias:</label>
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantcategsal" id="cantcategsal" type="number" placeholder="Ingrese la cantidad de categorias" />
+          </div>
+          <div>
+            <label className="nueva__sala__campo__etiqueta" htmlFor="cantrondassal">Cant. Rondas:</label>
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantrondassal" id="cantrondassal" type="number" placeholder="Ingrese la cantidad de rondas" />
+          </div>
+          <div>
+            <label className="nueva__sala__campo__etiqueta" htmlFor="passwordsal">Contraseña:</label>
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="passwordsal" id="passwordsal" type="password" placeholder="Ingrese la contraseña" />
+          </div>
         </div>
-        <div>
-          <label htmlFor="cantpartsal">Cant. Participantes</label>
-          <input onChange={handleInputChange} name="cantpartsal" id="cantpartsal" type="number" placeholder="Ingrese la cantidad de participantes" />
+        <div className="nueva__sala__categorias" ref={contenedorCategRef}>
+          {/* <input className="nueva__sala__categoria__juego" type="text" placeholder="Ingrese la categoria" />
+          <input className="nueva__sala__categoria__juego" type="text" placeholder="Ingrese la categoria" />
+          <input className="nueva__sala__categoria__juego" type="text" placeholder="Ingrese la categoria" />
+          <input className="nueva__sala__categoria__juego" type="text" placeholder="Ingrese la categoria" /> */}
         </div>
-        <div>
-          <label htmlFor="cantcategsal">Cant. Categorias</label>
-          <input onChange={handleInputChange} name="cantcategsal" id="cantcategsal" type="number" placeholder="Ingrese la cantidad de categorias" />
+        <div className="nueva__sala__botones">
+          <button className="nueva__sala__boton" type="submit">Registrar Sala</button>
         </div>
-        <div>
-          <label htmlFor="cantrondassal">Cant. Rondas</label>
-          <input onChange={handleInputChange} name="cantrondassal" id="cantrondassal" type="number" placeholder="Ingrese la cantidad de rondas" />
-        </div>
-        <div>
-          <label htmlFor="passwordsal">Contraseña</label>
-          <input onChange={handleInputChange} name="passwordsal" id="passwordsal" type="password" placeholder="Ingrese la contraseña" />
-        </div>
-        <button type="submit" className="">Registrar Sala</button>
       </form>
-      <div className="categorias" ref={contenedorCategRef}>
-
-      </div>
     </div>
   )
 }
