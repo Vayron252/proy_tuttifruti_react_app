@@ -86,7 +86,7 @@ const RegisterUserPage = () => {
                 </div>
                 <div className="registro__usuario__botones">
                     <button onClick={handleGoToLogin} className="registro__usuario__boton__logueo" 
-                    type="button"><i class="fa-solid fa-caret-left"></i> Volver</button>
+                    type="button"><i className="fa-solid fa-caret-left"></i> Volver</button>
                     <button className="registro__usuario__boton__registro" 
                     type="submit"><i className="fa-solid fa-floppy-disk"></i> Registrarse</button>
                 </div>

@@ -4,9 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
 import Swal from 'sweetalert2'
 import '../styles/stylespages.css'
+// import { WaitingRoom } from '../components/WaitingRoom'
+// import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 const LoginPage = () => {
-  const { setUserLogued } = useApp();
+  const [conn, setConnection] = useState();
+
+  const { userLogued, setUserLogued } = useApp();
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState({
     celular: '', password: ''
@@ -26,8 +30,10 @@ const LoginPage = () => {
     const info_bd = await getUserByCredentials(celular, password);
     const { data } = info_bd;
     if (Object.keys(data).length > 0) {
-      const { nombreusu, apellidousu, apodousu } = data;
-      setUserLogued({ name: nombreusu, lastname: apellidousu, nickname: apodousu });
+      const { idusuario, nombreusu, apellidousu, apodousu } = data;
+      setUserLogued({
+        ...userLogued, iduser: idusuario, name: nombreusu, nickname: apodousu
+      });
       Swal.fire({
         title: "Bienvenido",
         text: `${nombreusu} ${apellidousu}`,
@@ -35,11 +41,54 @@ const LoginPage = () => {
         allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
+          // createConectionUser(idusuario);
           navigate('/menu');
         }
       });
     }
   }
+
+  // const createConectionUser = async (id) => {
+  //   try {
+  //     //iniciamos la conexion
+  //     const conn = new HubConnectionBuilder()
+  //                   .withUrl(`${import.meta.env.VITE_API_URL}/chat`)
+  //                   .configureLogging(LogLevel.Information).build();
+
+  //     //recivimos el mensaje
+  //     // conn.on("JoinSpecificChatRoom", (username, msg) => {
+  //     //   console.log("msg: ", msg);
+  //     // });
+  //     var x = await conn.start();
+  //     console.log(x);
+  //     await conn.invoke("GenerarConexionUsuario", id);
+  //     setConnection(conn);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
+
+  // const joinChatRoom = async (username, chatroom) => {
+  //   // try {
+  //   //   //iniciamos la conexion
+  //   //   const conn = new HubConnectionBuilder()
+  //   //                 .withUrl(`${import.meta.env.VITE_API_URL}/chat`)
+  //   //                 .configureLogging(LogLevel.Information).build();
+
+  //   //   //recivimos el mensaje
+  //   //   conn.on("JoinSpecificChatRoom", (username, msg) => {
+  //   //     console.log("msg: ", msg);
+  //   //   });
+
+  //   //   await conn.start();
+  //   //   await conn.invoke("JoinSpecificChatRoom", {username, chatroom});
+  //   //   setConnection(conn);
+  //   // } catch (e) {
+  //   //   console.log(e);
+  //   // }
+
+  //   console.log(conn);
+  // }
 
   return (
     <div className="contenido__login">
@@ -60,12 +109,17 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="login__contenedor__boton">
-          <button type="submit" className="login__boton"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
+          <button type="submit" className="login__boton"><i className="fa-solid fa-right-to-bracket"></i> Ingresar</button>
         </div>
       </form>
       <p className="login__registro__user">¿No tienes una cuenta?, 
         <Link className="login__registro__user__link" to={"/user/register"}> Regístrate Aquí</Link>
       </p>
+
+      {/* <h2>hello a mi hall</h2>
+      <WaitingRoom joinChatRoom={joinChatRoom}></WaitingRoom> */}
+
+
     </div>
   )
 }

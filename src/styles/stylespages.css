@@ -4,14 +4,16 @@
     background-color: var(--colorFondoFormulario);
     padding: 4rem;
     border-radius: 2rem;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
 }
+
 .login__datos {
     margin-top: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
+
 .login__titulo {
     text-align: center;
     font-size: 2.5rem;
@@ -19,15 +21,18 @@
     color: var(--colorPrimario);
     text-transform: uppercase;
 }
+
 .login__datos__campo {
     position: relative;
 }
+
 .login__datos__campo__etiqueta {
     display: block;
     font-size: 2rem;
     font-weight: 700;
     color: var(--colorSecundario);
 }
+
 .login__datos__campo__caja {
     width: 100%;
     border: none;
@@ -37,6 +42,7 @@
     margin-top: 1rem;
     font-size: 1.5rem;
 }
+
 .login__datos__icono {
     position: absolute;
     font-size: 1.7rem;
@@ -44,11 +50,13 @@
     top: 4.8rem;
     left: 1.5rem;
 }
+
 .login__contenedor__boton {
     margin-top: 2rem;
     display: flex;
     justify-content: flex-end;
 }
+
 .login__boton {
     background-color: var(--colorSecundario);
     color: var(--colorBlanco);
@@ -60,11 +68,13 @@
     cursor: pointer;
     outline: none;
 }
+
 .login__registro__user {
     text-align: center;
     margin-top: 1.5rem;
     font-size: 1.5rem;
 }
+
 .login__registro__user__link {
     text-decoration: none;
     font-weight: 700;
@@ -78,8 +88,9 @@
     background-color: var(--colorFondoFormulario);
     padding: 3rem;
     border-radius: 2rem;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
 }
+
 .registro__usuario__titulo {
     text-align: center;
     font-size: 2.5rem;
@@ -87,21 +98,25 @@
     color: var(--colorPrimario);
     text-transform: uppercase;
 }
+
 .registro__usuario__datos {
     margin-top: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
+
 .registro__usuario__campo {
     position: relative;
 }
+
 .registro__usuario__campo__etiqueta {
     display: block;
     font-size: 2rem;
     font-weight: 700;
     color: var(--colorSecundario);
 }
+
 .registro__usuario__campo__caja {
     width: 100%;
     border: none;
@@ -111,6 +126,7 @@
     margin-top: 1rem;
     font-size: 1.5rem;
 }
+
 .registro__usuario__icono {
     position: absolute;
     font-size: 1.7rem;
@@ -118,11 +134,13 @@
     top: 4.8rem;
     left: 1.5rem;
 }
+
 .registro__usuario__botones {
     margin-top: 2rem;
     display: flex;
     justify-content: space-between;
 }
+
 .registro__usuario__boton__registro,
 .registro__usuario__boton__logueo {
     background-color: var(--colorSecundario);
@@ -145,7 +163,9 @@
     align-items: center;
     gap: 2rem;
 }
-.opciones__menu__crear__sala, .opciones__menu__unirse__sala {
+
+.opciones__menu__crear__sala,
+.opciones__menu__unirse__sala {
     width: 50%;
     padding: 2rem 0;
     font-size: 2rem;
@@ -167,13 +187,15 @@
     color: var(--colorPrimario);
     text-transform: uppercase;
 }
+
 .formulario__nueva__sala {
     margin-top: 1rem;
     background-color: var(--colorFondoFormulario);
     padding: 3rem;
     border-radius: 2rem;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
 }
+
 .nueva__sala__datos {
     margin-top: 1rem;
     display: flex;
@@ -183,12 +205,14 @@
     padding: 1rem;
     border-radius: .5rem;
 }
+
 .nueva__sala__campo__etiqueta {
     display: block;
     font-size: 2rem;
     font-weight: 700;
     color: var(--colorSecundario);
 }
+
 .nueva__sala__campo__caja {
     width: 100%;
     border: none;
@@ -198,6 +222,7 @@
     margin-top: 1rem;
     font-size: 1.5rem;
 }
+
 .nueva__sala__categorias {
     margin-top: 1rem;
     padding: 1rem;
@@ -207,6 +232,7 @@
     gap: 1rem;
     border-radius: .5rem;
 }
+
 .nueva__sala__categoria__juego {
     padding: .5rem;
     border: none;
@@ -214,6 +240,139 @@
     font-size: 1.2rem;
     text-align: center;
     outline: none;
+}
+
+.seccion__categorias {
+    display: flex;
+    flex-direction: column;
+}
+
+.nueva__sala__categoria__campo {
+    position: relative;
+}
+
+.nueva__sala__categoria__campo__etiqueta {
+    position: absolute;
+    font-size: 1.2rem;
+    top: .5rem;
+    left: 1rem;
+    font-weight: 700;
+    color: var(--colorSecundario);
+}
+
+.seccion__categorias__titulo {
+    padding-left: 1rem;
+    color: var(--colorSecundario);
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.seccion__categorias__mensaje {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+
+/* WaitingRoomPage */
+.contenido__informacion__sala .accordion__button {
+    background-color: var(--colorFondoFormulario);
+    color: var(--colorPrimario);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+}
+
+.contenido__informacion__sala .accordion__panel {
+    background-color: var(--colorBlanco);
+}
+
+.seccion__informacion__sala {
+    display: flex;
+    flex-direction: column;
+}
+
+.informacion__sala__fila,
+.informacion__sala__fila__titulo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.informacion__sala__fila {
+    border-bottom: .1rem solid var(--colorSecundario);
+    border-left: .1rem solid var(--colorSecundario);
+    border-right: .1rem solid var(--colorSecundario);
+}
+
+.informacion__sala__fila__titulo {
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+    font-weight: 700;
+    font-size: 1.3rem;
+    padding: 1rem 0;
+    text-transform: uppercase;
+    text-align: center;
+    border: .1rem solid var(--colorSecundario);
+}
+
+.informacion__sala__fila .sala__fila__titulo {
+    background-color: var(--colorSecundario);
+    opacity: .7;
+    color: var(--colorBlanco);
+    font-size: 1.2rem;
+    font-weight: 700;
+    /* padding: 1rem 5rem 1rem 0rem; */
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.informacion__sala__fila .sala__fila__dato {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.seccion__categorias__sala {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.categoria__sala__campo {
+    padding: .5rem 0;
+}
+
+.categoria__sala__campo__dato {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--colorSecundario);
+    font-weight: 700;
+}
+
+
+.tablea__participantes__sala {
+    border-collapse: collapse;
+    width: 100%;
+}
+.tablea__participantes__sala td,
+.tablea__participantes__sala th {
+    border: .1rem solid var(--colorPrimario);
+    padding: .8rem;
+    text-align: center;
+}
+.tablea__participantes__sala th {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    text-align: left;
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    text-align: center;
+}
+.tablea__participantes__sala td {
+    color: var(--colorSecundario);
+    font-weight: 700;
+    font-size: 1.1rem;
 }
 
 

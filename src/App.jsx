@@ -6,6 +6,8 @@ import { InitialLayout } from './layouts/InitialLayout'
 import { NavigationLayout } from './layouts/NavigationLayout'
 import { AppContextProvider } from './contexts/AppContext'
 import { loaderJoinHall } from './pages/JoinHallPage'
+import { loaderWaitingRoom } from './pages/WaitingRoomPage'
+import { GameLayout } from './layouts/GameLayout'
 
 const lazyComponent = (component) => {
   return loadable(() => {
@@ -24,6 +26,7 @@ const RegisterUserPage = lazyComponent('RegisterUserPage');
 const MenuPage = lazyComponent('MenuPage');
 const NewHallPage = lazyComponent('NewHallPage');
 const JoinHallPage = lazyComponent('JoinHallPage');
+const WaitingRoomPage = lazyComponent('WaitingRoomPage');
 
 const router = createBrowserRouter([
   {
@@ -56,6 +59,17 @@ const router = createBrowserRouter([
         path: '/halls',
         element: <JoinHallPage />,
         loader: loaderJoinHall
+      }
+    ]
+  },
+  {
+    path: "/",
+    element: <GameLayout />,
+    children: [
+      {
+        path: '/room/:roomid',
+        element: <WaitingRoomPage />,
+        loader: loaderWaitingRoom
       }
     ]
   }

@@ -21,3 +21,15 @@
 .seccion__contenido__navilay {
     padding: 1rem 0;
 }
+
+/* GameLayout */
+.seccion__logo__gamelay .contenedor__logo {
+    padding: 1rem 0;
+}
+.seccion__logo__gamelay .logo__imagen {
+    margin: 0 auto;
+    width: 15rem;
+}
+.seccion__contenido__gamelay {
+    padding: 1rem 0;
+}

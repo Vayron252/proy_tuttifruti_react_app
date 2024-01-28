@@ -1,5 +1,4 @@
 import React from 'react'
-import logo_tf from '../../img/logo_tutti_fruti.png'
 import { useApp } from '../../hooks/useApp'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/header.css'

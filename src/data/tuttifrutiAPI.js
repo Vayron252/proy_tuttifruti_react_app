@@ -23,6 +23,12 @@ export const getHallsByStatus = async (status) => {
     return result;
 }
 
+export const getHallById = async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/getHallById/${id}`);
+    const result = await response.json();
+    return result;
+}
+
 export const registerHall = async (hall) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/registerHall`, {
         method: 'POST',
@@ -31,6 +37,19 @@ export const registerHall = async (hall) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(hall)
+    });
+    const result = await response.json();
+    return result;
+}
+
+export const joinHall = async (game) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/joinHall`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(game)
     });
     const result = await response.json();
     return result;
