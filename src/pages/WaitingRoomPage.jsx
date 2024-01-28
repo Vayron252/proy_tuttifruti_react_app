@@ -7,9 +7,10 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css'
 import '../styles/stylespages.css'
-import { getHallById } from '../data/tuttifrutiAPI'
+import { getHallById, getPlayersByRoomId } from '../data/tuttifrutiAPI'
 import { useLoaderData } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
+import { useEffect, useState } from 'react';
 
 export const loaderWaitingRoom = async ({ params }) => {
     const { roomid } = params;
@@ -20,13 +21,25 @@ export const loaderWaitingRoom = async ({ params }) => {
 }
 
 const WaitingRoomPage = () => {
+    const [players, setPlayers] = useState([]);
     const { userLogued } = useApp();
     const { hall } = useLoaderData();
-    const { iduser, nickname, host } = userLogued;
+    const { iduser, nickname, host, idroom } = userLogued;
     const { nombresal, cantcategsal, cantpartsal, cantrondassal, estadosal, fecregistrosal, passwordsal, catSal, juegos } = hall;
+
+    useEffect(() => {
+      const arrayPlayers = juegos.map(jue => ({ idusu: jue.idusuario, nick: jue.usuario.apodousu, ready: jue.flglistojgo }));
+      setPlayers(arrayPlayers);
+    }, [])
+
+    const handleAgainListPlayers = async () => {
+        const info = await getPlayersByRoomId(idroom);
+        console.log(info);
+    }
 
     return (
         <div className="contenido__informacion__sala">
+            <button onClick={handleAgainListPlayers}>Listar</button>
             <Accordion preExpanded={["acord-info"]}>
                 <AccordionItem uuid="acord-info">
                     <AccordionItemHeading>
@@ -151,12 +164,11 @@ const WaitingRoomPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {juegos.map((jue, i) => (
+                                {players.map((p, i) => (
                                     <tr key={i+1}>
                                         <td>{i+1}</td>
-                                        <td>{jue.usuario.apodousu}</td>
-                                        {/* <td>{jue.flghostjgo}</td> */}
-                                        <td><input type="checkbox" disabled={jue.usuario.idusuario == iduser ? false : true} /></td>
+                                        <td>{p.nick}</td>
+                                        <td><input type="checkbox" defaultChecked={p.ready} disabled={p.idusu == iduser ? false : true} /></td>
                                     </tr>
                                 ))}
                             </tbody>
