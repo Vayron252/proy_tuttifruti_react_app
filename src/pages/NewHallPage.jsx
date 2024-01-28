@@ -21,7 +21,7 @@ const NewHallPage = () => {
     const fecRegistro = getDateHourNow();
     const Hall = {
       nombresal, cantpartsal, cantcategsal, cantrondassal,
-      fecregistrosal: fecRegistro, estadosal: 'CRE', passwordsal, flgactivosal: true
+      fecregistrosal: fecRegistro, estadosal: 'EN ESPERA', passwordsal, flgactivosal: true
     }
     const Game = {
       idusuario: 1, fecingresojgo: fecRegistro, flghostjgo: true, flglistojgo: false, flgactivojgo: true
@@ -32,7 +32,7 @@ const NewHallPage = () => {
     const { data } = info;
     const { idsala } = data;
     setUserLogued({
-      ...userLogued, idroom: idsala, nameroom: Hall.nombresal, host: true
+      ...userLogued, idroom: idsala, host: true
     });
     
     if (Object.keys(data).length > 0) {
@@ -86,23 +86,23 @@ const NewHallPage = () => {
         <div className="nueva__sala__datos">
           <div className="nueva__sala__campo">
             <label className="nueva__sala__campo__etiqueta" htmlFor="nombresal">Nombre de la sala:</label>
-            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="nombresal" id="nombresal" type="text" placeholder="Ingrese el nombre de la sala" />
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="nombresal" id="nombresal" type="text" placeholder="Ingrese el nombre de la sala" autoComplete="off" />
           </div>
           <div className="nueva__sala__campo">
             <label className="nueva__sala__campo__etiqueta" htmlFor="cantpartsal">Cant. Participantes:</label>
-            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantpartsal" id="cantpartsal" type="number" placeholder="Ingrese la cantidad de participantes" />
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantpartsal" id="cantpartsal" type="number" placeholder="Ingrese la cantidad de participantes" autoComplete="off" />
           </div>
           <div className="nueva__sala__campo">
             <label className="nueva__sala__campo__etiqueta" htmlFor="cantcategsal">Cant. Categorias:</label>
-            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantcategsal" id="cantcategsal" type="number" placeholder="Ingrese la cantidad de categorias" />
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantcategsal" id="cantcategsal" type="number" placeholder="Ingrese la cantidad de categorias" autoComplete="off" />
           </div>
           <div className="nueva__sala__campo">
             <label className="nueva__sala__campo__etiqueta" htmlFor="cantrondassal">Cant. Rondas:</label>
-            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantrondassal" id="cantrondassal" type="number" placeholder="Ingrese la cantidad de rondas" />
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="cantrondassal" id="cantrondassal" type="number" placeholder="Ingrese la cantidad de rondas" autoComplete="off" />
           </div>
           <div className="nueva__sala__campo">
             <label className="nueva__sala__campo__etiqueta" htmlFor="passwordsal">Contraseña:</label>
-            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="passwordsal" id="passwordsal" type="password" placeholder="Ingrese la contraseña" />
+            <input className="nueva__sala__campo__caja" onChange={handleInputChange} name="passwordsal" id="passwordsal" type="password" placeholder="Ingrese la contraseña" autoComplete="off" />
           </div>
         </div>
         <div className="seccion__categorias">
@@ -113,7 +113,7 @@ const NewHallPage = () => {
                 {categories.map(categ => (
                   <div key={categ.numeracion} className="nueva__sala__categoria__campo">
                     <label className="nueva__sala__categoria__campo__etiqueta">{categ.numeracion}.</label>
-                    <input onBlur={handleLostFocus} className="nueva__sala__categoria__juego" type="text" placeholder="Categoria" number={categ.numeracion} />
+                    <input onBlur={handleLostFocus} className="nueva__sala__categoria__juego" type="text" placeholder="Categoria" number={categ.numeracion} autoComplete="off" />
                   </div>
                 ))}
               </div>

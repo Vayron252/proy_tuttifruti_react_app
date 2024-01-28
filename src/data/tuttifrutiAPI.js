@@ -17,8 +17,8 @@ export const registerUser = async (user) => {
     return result;
 }
 
-export const getHallsByStatus = async (status) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/getAllHallsByStatus/${status}`);
+export const getHallsByStatus = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/getAllHallsByStatus`);
     const result = await response.json();
     return result;
 }

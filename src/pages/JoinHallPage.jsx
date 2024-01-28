@@ -1,22 +1,28 @@
 import { getHallsByStatus, joinHall } from '../data/tuttifrutiAPI'
 import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useApp } from '../hooks/useApp'
+import { getDateHourNow } from '../utils/helpers'
 
 export const loaderJoinHall = async () => {
-    const info = await getHallsByStatus('CRE');
+    const info = await getHallsByStatus();
     const { data } = info;
     return { halls: data };
 }
 
 const JoinHallPage = () => {
     const navigate = useNavigate();
+    const { userLogued, setUserLogued } = useApp();
+    const { iduser } = userLogued;
     const { halls } = useLoaderData();
 
     const handleJoinHall = async (idsala) => {
+        setUserLogued({
+            ...userLogued, idroom: idsala, host: false
+        });
         const game = {
-            idsala: idsala, idusuario: 2, fecingresojgo: '27/01/2024 20:51:00', flghostjgo: false, flglistojgo: false, flgactivojgo: true
+            idsala: idsala, idusuario: iduser, fecingresojgo: getDateHourNow(), flghostjgo: false, flglistojgo: false, flgactivojgo: true
         }
         const info = await joinHall(game);
-        console.log(info);
         navigate(`/room/${idsala}`);
     }
 

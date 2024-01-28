@@ -22,8 +22,8 @@ export const loaderWaitingRoom = async ({ params }) => {
 const WaitingRoomPage = () => {
     const { userLogued } = useApp();
     const { hall } = useLoaderData();
-    const { nickname, host } = userLogued;
-    const { cantcategsal, cantpartsal, cantrondassal, estadosal, fecregistrosal, passwordsal, catSal, juegos } = hall;
+    const { iduser, nickname, host } = userLogued;
+    const { nombresal, cantcategsal, cantpartsal, cantrondassal, estadosal, fecregistrosal, passwordsal, catSal, juegos } = hall;
 
     return (
         <div className="contenido__informacion__sala">
@@ -42,6 +42,14 @@ const WaitingRoomPage = () => {
                                 </div>
                                 <div className="">
                                     <p className="">Dato</p>
+                                </div>
+                            </div>
+                            <div className="informacion__sala__fila">
+                                <div className="sala__fila__titulo">
+                                    <p className="">Nombre de la Sala:</p>
+                                </div>
+                                <div className="sala__fila__dato">
+                                    <p className="">{nombresal}</p>
                                 </div>
                             </div>
                             <div className="informacion__sala__fila">
@@ -139,7 +147,7 @@ const WaitingRoomPage = () => {
                                 <tr>
                                     <th>N°</th>
                                     <th>NickName</th>
-                                    <th>Status</th>
+                                    <th>¿Listo?</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -148,7 +156,7 @@ const WaitingRoomPage = () => {
                                         <td>{i+1}</td>
                                         <td>{jue.usuario.apodousu}</td>
                                         {/* <td>{jue.flghostjgo}</td> */}
-                                        <td>{`Esperando...`}</td>
+                                        <td><input type="checkbox" disabled={jue.usuario.idusuario == iduser ? false : true} /></td>
                                     </tr>
                                 ))}
                             </tbody>
