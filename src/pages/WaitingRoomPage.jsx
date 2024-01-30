@@ -6,11 +6,12 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css'
-import '../styles/stylespages.css'
-import { getHallById, getPlayersByRoomId } from '../data/tuttifrutiAPI'
+import { getHallById, getPlayersByRoomId, readyGameByRoom } from '../data/tuttifrutiAPI'
 import { useLoaderData } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
+import Connector from '../hubs/signalr-connection'
 import { useEffect, useState } from 'react';
+import '../styles/stylespages.css'
 
 export const loaderWaitingRoom = async ({ params }) => {
     const { roomid } = params;
@@ -21,6 +22,7 @@ export const loaderWaitingRoom = async ({ params }) => {
 }
 
 const WaitingRoomPage = () => {
+    const { events } = Connector();
     const [players, setPlayers] = useState([]);
     const { userLogued } = useApp();
     const { hall } = useLoaderData();
@@ -28,18 +30,36 @@ const WaitingRoomPage = () => {
     const { nombresal, cantcategsal, cantpartsal, cantrondassal, estadosal, fecregistrosal, passwordsal, catSal, juegos } = hall;
 
     useEffect(() => {
-      const arrayPlayers = juegos.map(jue => ({ idusu: jue.idusuario, nick: jue.usuario.apodousu, ready: jue.flglistojgo }));
+      const arrayPlayers = juegos.map(jue => ({ idgame: jue.idjuego, idusu: jue.idusuario, nick: jue.usuario.apodousu, ready: jue.flglistojgo }));
       setPlayers(arrayPlayers);
     }, [])
 
+    useEffect(() => {
+        const listarJugadores = async (_, msg) => {
+            console.log(msg);
+            await handleAgainListPlayers();
+        }
+        events(null, null, listarJugadores);
+    }, [events]);
+
     const handleAgainListPlayers = async () => {
         const info = await getPlayersByRoomId(idroom);
-        console.log(info);
+        const { data } = info;
+        const arrayPlayers = data.map(j => {
+            const { idjuego, idusuario, apodousu, flglistojgo } = j;
+            return { idgame: idjuego, idusu: idusuario, nick: apodousu, ready: flglistojgo }
+        });
+        setPlayers(arrayPlayers);
+    }
+
+    const handleChangeReady = async (ready, idgame) => {
+        const oGame = { idjuego: idgame, flglistojgo: ready };
+        const info = await readyGameByRoom(oGame);
     }
 
     return (
         <div className="contenido__informacion__sala">
-            <button onClick={handleAgainListPlayers}>Listar</button>
+            {/* <button onClick={handleAgainListPlayers}>Listar</button> */}
             <Accordion preExpanded={["acord-info"]}>
                 <AccordionItem uuid="acord-info">
                     <AccordionItemHeading>
@@ -168,7 +188,7 @@ const WaitingRoomPage = () => {
                                     <tr key={i+1}>
                                         <td>{i+1}</td>
                                         <td>{p.nick}</td>
-                                        <td><input type="checkbox" defaultChecked={p.ready} disabled={p.idusu == iduser ? false : true} /></td>
+                                        <td><input type="checkbox" name="chec[]" onChange={e => handleChangeReady(e.target.checked, p.idgame)} checked={p.ready} disabled={p.idusu == iduser ? false : true} /></td>
                                     </tr>
                                 ))}
                             </tbody>

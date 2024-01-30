@@ -1,10 +1,8 @@
-import React from 'react'
-import '../styles/stylespages.css'
 import { useNavigate } from 'react-router-dom'
+import '../styles/stylespages.css'
 
 const MenuPage = () => {
     const navigate = useNavigate();
-
     const handleNewHall = () => {
         navigate("/hall/create");
     }

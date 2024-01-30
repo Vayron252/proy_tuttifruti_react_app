@@ -1,16 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getUserByCredentials } from '../data/tuttifrutiAPI'
 import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
 import Swal from 'sweetalert2'
+import Connector from '../hubs/signalr-connection'
 import '../styles/stylespages.css'
-// import { WaitingRoom } from '../components/WaitingRoom'
-// import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 const LoginPage = () => {
-  const [conn, setConnection] = useState();
-
   const { userLogued, setUserLogued } = useApp();
+  const { events, generarConexionUsuario } = Connector();
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState({
     celular: '', password: ''
@@ -24,6 +22,13 @@ const LoginPage = () => {
     });
   }
 
+  useEffect(() => {
+    const createConectionUser = (_, msg) => {
+      console.log(msg);
+    };
+    events(createConectionUser);
+  }, [events]);
+  
   const handleLoguearUsuario = async (e) => {
     e.preventDefault();
     const { celular, password } = usuario;
@@ -41,54 +46,12 @@ const LoginPage = () => {
         allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
-          // createConectionUser(idusuario);
+          generarConexionUsuario(idusuario);
           navigate('/menu');
         }
       });
     }
   }
-
-  // const createConectionUser = async (id) => {
-  //   try {
-  //     //iniciamos la conexion
-  //     const conn = new HubConnectionBuilder()
-  //                   .withUrl(`${import.meta.env.VITE_API_URL}/chat`)
-  //                   .configureLogging(LogLevel.Information).build();
-
-  //     //recivimos el mensaje
-  //     // conn.on("JoinSpecificChatRoom", (username, msg) => {
-  //     //   console.log("msg: ", msg);
-  //     // });
-  //     var x = await conn.start();
-  //     console.log(x);
-  //     await conn.invoke("GenerarConexionUsuario", id);
-  //     setConnection(conn);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // const joinChatRoom = async (username, chatroom) => {
-  //   // try {
-  //   //   //iniciamos la conexion
-  //   //   const conn = new HubConnectionBuilder()
-  //   //                 .withUrl(`${import.meta.env.VITE_API_URL}/chat`)
-  //   //                 .configureLogging(LogLevel.Information).build();
-
-  //   //   //recivimos el mensaje
-  //   //   conn.on("JoinSpecificChatRoom", (username, msg) => {
-  //   //     console.log("msg: ", msg);
-  //   //   });
-
-  //   //   await conn.start();
-  //   //   await conn.invoke("JoinSpecificChatRoom", {username, chatroom});
-  //   //   setConnection(conn);
-  //   // } catch (e) {
-  //   //   console.log(e);
-  //   // }
-
-  //   console.log(conn);
-  // }
 
   return (
     <div className="contenido__login">

@@ -60,3 +60,16 @@ export const joinHall = async (game) => {
     const result = await response.json();
     return result;
 }
+
+export const readyGameByRoom = async (game) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/readyPlayerByRoom`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(game)
+    });
+    const result = await response.json();
+    return result;
+}
