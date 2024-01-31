@@ -4,6 +4,7 @@ import { useApp } from '../hooks/useApp'
 import { getDateHourNow } from '../utils/helpers'
 import Connector from '../hubs/signalr-connection'
 import { useEffect, useState } from 'react'
+import '../styles/stylespages.css'
 
 export const loaderJoinHall = async () => {
     const info = await getListHalls();
@@ -55,16 +56,36 @@ const JoinHallPage = () => {
     }
 
     return (
-        <div>
-            <h2>Listado de Salas</h2>
-            <div>
+        <div className="contenido__listado__salas__enespera">
+            <h2 className="listado__salas__enespera__titulo">Listado de Salas</h2>
+            <table className="tabla__salas__enespera">
+                <thead>
+                    <tr>
+                        <th>N°.</th>
+                        <th>Nombre de la Sala</th>
+                        <th>Jugadores</th>
+                        <th>Unirse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {rooms.map((room, i) => (
+                        <tr key={i+1}>
+                            <td>{i+1}</td>
+                            <td>{room.nombresal}</td>
+                            <td>{"3/4"}</td>
+                            <td><i onClick={e => handleJoinHall(room.idsala)} className="fa-solid fa-gamepad"></i></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {/* <div>
                 {rooms.map((room, i) => (
                     <div key={i}>
                         <p>{room.nombresal}</p>
                         <button onClick={e => handleJoinHall(room.idsala)}>{`Join: ${room.idsala}`}</button>
                     </div>
                 ))}
-            </div>
+            </div> */}
         </div>
     )
 }

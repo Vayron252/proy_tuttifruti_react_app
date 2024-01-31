@@ -281,11 +281,9 @@
     font-size: 1.3rem;
     text-transform: uppercase;
 }
-
 .contenido__informacion__sala .accordion__panel {
     background-color: var(--colorBlanco);
 }
-
 .seccion__informacion__sala {
     display: flex;
     flex-direction: column;
@@ -342,7 +340,7 @@
 
 .categoria__sala__campo__dato {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--colorSecundario);
     font-weight: 700;
 }
@@ -366,14 +364,111 @@
     color: var(--colorBlanco);
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     text-align: center;
 }
 .tablea__participantes__sala td {
     color: var(--colorSecundario);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+}
+.informacion__contenedor__sala__boton {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+.informacion__sala__iniciar__juego {
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+    padding: 1.5rem 3rem;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.informacion__sala__iniciar__juego:disabled {
+    opacity: .7;
+    cursor: default;
 }
 
+input[type="checkbox"] {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    background-color: #cfcfcf;
+    border-radius: .25rem;
+    appearance: none;
+    cursor: pointer;
+}
+input[type="checkbox"]:checked {
+    background-color: var(--colorSecundario);
+}
+input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    width: 9px;
+    height: 18px;
+    border: 4px solid transparent;
+    border-left: none;
+    border-top: none;
+    transform: rotate(45deg) scale(1);
+}
+input[type="checkbox"]:checked:before {
+    border-color: #fff;
+    animation: checkAnim .2s ease;
+}
+@keyframes checkAnim {
+    from {
+        transform: rotate(45deg) scale(0);
+    }
+}
 
 /* JoinHallPage */
+.contenido__listado__salas__enespera {
+    background-color: var(--colorBlanco);
+    padding: 2rem 1rem;
+    border-radius: 1rem;
+}
+.listado__salas__enespera__titulo {
+    text-transform: uppercase;
+    color: var(--colorPrimario);
+    text-align: center;
+    font-size: 1.8rem;
+}
+.tabla__salas__enespera {
+    margin-top: 2rem;
+    border-collapse: collapse;
+    width: 100%;
+}
+.tabla__salas__enespera td,
+.tabla__salas__enespera th {
+    border: .1rem solid var(--colorPrimario);
+    padding: .8rem;
+    text-align: center;
+}
+.tabla__salas__enespera th {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    text-align: left;
+    background-color: var(--colorSecundario);
+    color: var(--colorBlanco);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    text-align: center;
+}
+.tabla__salas__enespera td {
+    color: var(--colorSecundario);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+.tabla__salas__enespera td i {
+    font-size: 1.5rem;
+    cursor: pointer;
+}

@@ -5,23 +5,24 @@ import {
     AccordionItemButton,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
-import 'react-accessible-accordion/dist/fancy-example.css'
+import toast, { Toaster } from 'react-hot-toast';
 import { getHallById, getPlayersByRoomId, readyGameByRoom } from '../data/tuttifrutiAPI'
 import { useLoaderData } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
 import Connector from '../hubs/signalr-connection'
 import { useEffect, useState } from 'react';
+import 'react-accessible-accordion/dist/fancy-example.css'
 import '../styles/stylespages.css'
 
 export const loaderWaitingRoom = async ({ params }) => {
     const { roomid } = params;
     const info = await getHallById(roomid);
     const { data } = info;
-
     return { hall: data };
 }
 
 const WaitingRoomPage = () => {
+    const [startGame, setStartGame] = useState(false);
     const { events } = Connector();
     const [players, setPlayers] = useState([]);
     const { userLogued } = useApp();
@@ -32,12 +33,13 @@ const WaitingRoomPage = () => {
     useEffect(() => {
       const arrayPlayers = juegos.map(jue => ({ idgame: jue.idjuego, idusu: jue.idusuario, nick: jue.usuario.apodousu, ready: jue.flglistojgo }));
       setPlayers(arrayPlayers);
+      verifyAllPlayersReady(arrayPlayers);
     }, [])
 
     useEffect(() => {
         const listarJugadores = async (_, msg) => {
-            console.log(msg);
             await handleAgainListPlayers();
+            toast.success(msg);
         }
         events(null, null, listarJugadores);
     }, [events]);
@@ -50,6 +52,7 @@ const WaitingRoomPage = () => {
             return { idgame: idjuego, idusu: idusuario, nick: apodousu, ready: flglistojgo }
         });
         setPlayers(arrayPlayers);
+        verifyAllPlayersReady(arrayPlayers);
     }
 
     const handleChangeReady = async (ready, idgame) => {
@@ -57,8 +60,14 @@ const WaitingRoomPage = () => {
         const info = await readyGameByRoom(oGame);
     }
 
+    const verifyAllPlayersReady = (listPlayers) => {
+        const result = listPlayers.every(lp => lp.ready);
+        setStartGame(result);
+    }
+
     return (
         <div className="contenido__informacion__sala">
+            <Toaster />
             {/* <button onClick={handleAgainListPlayers}>Listar</button> */}
             <Accordion preExpanded={["acord-info"]}>
                 <AccordionItem uuid="acord-info">
@@ -188,7 +197,7 @@ const WaitingRoomPage = () => {
                                     <tr key={i+1}>
                                         <td>{i+1}</td>
                                         <td>{p.nick}</td>
-                                        <td><input type="checkbox" name="chec[]" onChange={e => handleChangeReady(e.target.checked, p.idgame)} checked={p.ready} disabled={p.idusu == iduser ? false : true} /></td>
+                                        <td><input type="checkbox" onChange={e => handleChangeReady(e.target.checked, p.idgame)} checked={p.ready} disabled={p.idusu == iduser ? false : true} /></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -196,6 +205,14 @@ const WaitingRoomPage = () => {
                     </AccordionItemPanel>
                 </AccordionItem>
             </Accordion>
+            { host ? 
+            (
+                <div className="informacion__contenedor__sala__boton">
+                    <button className="informacion__sala__iniciar__juego" disabled={!startGame} >
+                        <i className="fa-solid fa-gamepad"></i> Iniciar Juego
+                    </button>
+                </div>
+            ) : (<></>) }
         </div>
     )
 }
