@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr";
-const URL = "https://localhost:7263/room"; //or whatever your backend port is
+const URL = `${import.meta.env.VITE_API_URL}`; //or whatever your backend port is
 class Connector {
     connection;
     events;
