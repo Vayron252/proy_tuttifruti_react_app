@@ -1,16 +1,14 @@
 import {
-    Accordion,
-    AccordionItem,
-    AccordionItemHeading,
-    AccordionItemButton,
-    AccordionItemPanel,
+    Accordion, AccordionItem, AccordionItemHeading, AccordionItemButton, AccordionItemPanel,
 } from 'react-accessible-accordion';
 import toast, { Toaster } from 'react-hot-toast';
 import { getHallById, getPlayersByRoomId, readyGameByRoom } from '../data/tuttifrutiAPI'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
 import Connector from '../hubs/signalr-connection'
 import { useEffect, useState } from 'react';
+import { ReadyPLayer } from '../components/ReadyPLayer'
+import Swal from 'sweetalert2'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import '../styles/stylespages.css'
 
@@ -22,6 +20,7 @@ export const loaderWaitingRoom = async ({ params }) => {
 }
 
 const WaitingRoomPage = () => {
+    const navigate = useNavigate();
     const [startGame, setStartGame] = useState(false);
     const { events } = Connector();
     const [players, setPlayers] = useState([]);
@@ -31,9 +30,11 @@ const WaitingRoomPage = () => {
     const { nombresal, cantcategsal, cantpartsal, cantrondassal, estadosal, fecregistrosal, passwordsal, catSal, juegos } = hall;
 
     useEffect(() => {
-      const arrayPlayers = juegos.map(jue => ({ idgame: jue.idjuego, idusu: jue.idusuario, nick: jue.usuario.apodousu, ready: jue.flglistojgo }));
-      setPlayers(arrayPlayers);
-      verifyAllPlayersReady(arrayPlayers);
+        const arrayPlayers = juegos.map(jue => ({ idgame: jue.idjuego, idusu: jue.idusuario, nick: jue.usuario.apodousu, host: jue.flghostjgo, ready: jue.flglistojgo }));
+        setPlayers(arrayPlayers);
+        if (host) {
+            verifyAllPlayersReady(arrayPlayers);
+        }
     }, [])
 
     useEffect(() => {
@@ -41,18 +42,36 @@ const WaitingRoomPage = () => {
             await handleAgainListPlayers();
             toast.success(msg);
         }
-        events(null, null, listarJugadores);
+        const disconnectRoom = (_, msg) => {
+            disconnectServerHost();
+        }
+        events(null, null, listarJugadores, disconnectRoom);
     }, [events]);
 
     const handleAgainListPlayers = async () => {
         const info = await getPlayersByRoomId(idroom);
         const { data } = info;
         const arrayPlayers = data.map(j => {
-            const { idjuego, idusuario, apodousu, flglistojgo } = j;
-            return { idgame: idjuego, idusu: idusuario, nick: apodousu, ready: flglistojgo }
+            const { idjuego, idusuario, apodousu, flghostjgo, flglistojgo } = j;
+            return { idgame: idjuego, idusu: idusuario, nick: apodousu, host: flghostjgo, ready: flglistojgo }
         });
         setPlayers(arrayPlayers);
-        verifyAllPlayersReady(arrayPlayers);
+        if (host) {
+            verifyAllPlayersReady(arrayPlayers);
+        }
+    }
+
+    const disconnectServerHost = () => {
+        Swal.fire({
+            title: "Servidor Desconectado",
+            text: `El host se ha desconectado de la sala.`,
+            icon: "warning",
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                navigate('/menu');
+            }
+        });
     }
 
     const handleChangeReady = async (ready, idgame) => {
@@ -170,8 +189,8 @@ const WaitingRoomPage = () => {
                     <AccordionItemPanel>
                         <div className="seccion__categorias__sala">
                             {catSal.map((cat, i) => (
-                                <div key={i+1} className="categoria__sala__campo">
-                                    <p className="categoria__sala__campo__dato">{`${i+1}. ${cat.categoria.titulocat}`}</p>
+                                <div key={i + 1} className="categoria__sala__campo">
+                                    <p className="categoria__sala__campo__dato">{`${i + 1}. ${cat.categoria.titulocat}`}</p>
                                 </div>
                             ))}
                         </div>
@@ -194,10 +213,20 @@ const WaitingRoomPage = () => {
                             </thead>
                             <tbody>
                                 {players.map((p, i) => (
-                                    <tr key={i+1}>
-                                        <td>{i+1}</td>
+                                    <tr key={i + 1}>
+                                        <td>{i + 1}</td>
                                         <td>{p.nick}</td>
-                                        <td><input type="checkbox" onChange={e => handleChangeReady(e.target.checked, p.idgame)} checked={p.ready} disabled={p.idusu == iduser ? false : true} /></td>
+                                        <td>{p.idusu == iduser ?
+                                            (
+                                                <input type="checkbox"
+                                                    onChange={e => handleChangeReady(e.target.checked, p.idgame)}
+                                                    checked={p.ready}
+                                                    disabled={p.idusu == iduser ? false : true} />
+                                            ) :
+                                            (
+                                                <ReadyPLayer ready={p.ready} />
+                                            )
+                                        }</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -205,14 +234,14 @@ const WaitingRoomPage = () => {
                     </AccordionItemPanel>
                 </AccordionItem>
             </Accordion>
-            { host ? 
-            (
-                <div className="informacion__contenedor__sala__boton">
-                    <button className="informacion__sala__iniciar__juego" disabled={!startGame} >
-                        <i className="fa-solid fa-gamepad"></i> Iniciar Juego
-                    </button>
-                </div>
-            ) : (<></>) }
+            {host ?
+                (
+                    <div className="informacion__contenedor__sala__boton">
+                        <button className="informacion__sala__iniciar__juego" disabled={!startGame} >
+                            <i className="fa-solid fa-gamepad"></i> Iniciar Juego
+                        </button>
+                    </div>
+                ) : (<></>)}
         </div>
     )
 }

@@ -371,6 +371,10 @@
     color: var(--colorSecundario);
     font-weight: 700;
     font-size: 1.4rem;
+    height: 4.9rem;
+}
+.tablea__participantes__sala td:last-of-type {
+    width: 20rem;
 }
 .informacion__contenedor__sala__boton {
     display: flex;

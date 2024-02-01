@@ -26,13 +26,15 @@ const JoinHallPage = () => {
     const [rooms, setRooms] = useState([]);
 
     const handleJoinHall = async (idsala) => {
-        setUserLogued({
-            ...userLogued, idroom: idsala, host: false
-        });
         const game = {
             idsala: idsala, idusuario: iduser, fecingresojgo: getDateHourNow(), flghostjgo: false, flglistojgo: false, flgactivojgo: true
         }
-        await joinHall(game);
+        const info = await joinHall(game);
+        const { data } = info;
+        const { idjuego } = data;
+        setUserLogued({
+            ...userLogued, idroom: idsala, host: false, idgame: idjuego
+        });
         navigate(`/room/${idsala}`);
     }
 

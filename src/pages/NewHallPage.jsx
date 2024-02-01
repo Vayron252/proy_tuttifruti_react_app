@@ -7,9 +7,10 @@ import Swal from 'sweetalert2'
 import '../styles/stylespages.css'
 
 const NewHallPage = () => {
-  const { userLogued, setUserLogued } = useApp();
   const navigate = useNavigate();
   const contenedorCategRef = useRef();
+  const { userLogued, setUserLogued } = useApp();
+  const { iduser } = userLogued;
   const [hall, setHall] = useState({
     nombresal: '', cantpartsal: 0, cantcategsal: 0, cantrondassal: 0, passwordsal: ''
   });
@@ -24,15 +25,15 @@ const NewHallPage = () => {
       fecregistrosal: fecRegistro, estadosal: 'EN ESPERA', passwordsal, flgactivosal: true
     }
     const Game = {
-      idusuario: 1, fecingresojgo: fecRegistro, flghostjgo: true, flglistojgo: false, flgactivojgo: true
+      idusuario: iduser, fecingresojgo: fecRegistro, flghostjgo: true, flglistojgo: false, flgactivojgo: true
     }
     const CategoryRoom = categories.map(categ => ({ titulocat: categ.valor, fecregistrocat: fecRegistro, flgactivocat: true }));
     const objHall = { oHallCreateDTO: Hall, oGameCreateDTO: Game, oCategorysDTO: CategoryRoom }
     const info = await registerHall(objHall);
     const { data } = info;
-    const { idsala } = data;
+    const { idsala, idjuego } = data;
     setUserLogued({
-      ...userLogued, idroom: idsala, host: true
+      ...userLogued, idroom: idsala, host: true, idgame: idjuego
     });
     
     if (Object.keys(data).length > 0) {

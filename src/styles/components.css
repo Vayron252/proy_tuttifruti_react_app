@@ -1,0 +1,18 @@
+/* ReadyPLayer */
+.contenedor__wait__players {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.contenedor__wait__players .sk-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.contenedor__icono__check {
+    width: 100%;    
+}
+.icono__check__imagen {
+    width: 3rem;
+    margin: 0 auto;
+}

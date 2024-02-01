@@ -29,6 +29,19 @@ export const getHallById = async (id) => {
     return result;
 }
 
+export const disconnectRoomByGameId = async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/disconnectRoomByGameId`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: id
+    });
+    const result = await response.json();
+    return result;
+}
+
 export const getPlayersByRoomId = async (id) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/games/getPlayersByRoomId/${id}`);
     const result = await response.json();

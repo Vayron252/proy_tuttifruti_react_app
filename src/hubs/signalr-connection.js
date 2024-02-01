@@ -10,7 +10,7 @@ class Connector {
             .withAutomaticReconnect()
             .build();
         this.connection.start().catch(err => document.write(err));
-        this.events = (onRecibeMensaje, onListRooms, onListPlayersRoom) => {
+        this.events = (onRecibeMensaje, onListRooms, onListPlayersRoom, onDisconnectRoom) => {
             this.connection.on("recibeMensaje", (username, message) => {
                 onRecibeMensaje(username, message);
             });
@@ -19,6 +19,9 @@ class Connector {
             });
             this.connection.on("listPlayersRoom", (username, message) => {
                 onListPlayersRoom(username, message);
+            });
+            this.connection.on("disconnectRoom", (username, message) => {
+                onDisconnectRoom(username, message);
             });
         };
     }
