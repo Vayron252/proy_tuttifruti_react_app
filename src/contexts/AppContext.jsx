@@ -1,14 +1,11 @@
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
-    const [userLogued, setUserLogued] = useState({
-        iduser: 0, name: '', lastname: '', nickname: '', idroom: 0, host: false, idgame: 0
-    });
-
-
+    const [userLogued, setUserLogued] = useLocalStorage('data_user_logued', {});
+    
     return (
         <AppContext.Provider
             value={

@@ -37,7 +37,7 @@ const LoginPage = () => {
     if (Object.keys(data).length > 0) {
       const { idusuario, nombreusu, apellidousu, apodousu } = data;
       setUserLogued({
-        ...userLogued, iduser: idusuario, name: nombreusu, nickname: apodousu
+        ...userLogued, iduser: idusuario, nickname: apodousu
       });
       Swal.fire({
         title: "Bienvenido",
@@ -78,11 +78,6 @@ const LoginPage = () => {
       <p className="login__registro__user">¿No tienes una cuenta?, 
         <Link className="login__registro__user__link" to={"/user/register"}> Regístrate Aquí</Link>
       </p>
-
-      {/* <h2>hello a mi hall</h2>
-      <WaitingRoom joinChatRoom={joinChatRoom}></WaitingRoom> */}
-
-
     </div>
   )
 }
