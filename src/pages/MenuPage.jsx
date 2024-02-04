@@ -3,6 +3,7 @@ import '../styles/stylespages.css'
 
 const MenuPage = () => {
     const navigate = useNavigate();
+    
     const handleNewHall = () => {
         navigate("/hall/create");
     }

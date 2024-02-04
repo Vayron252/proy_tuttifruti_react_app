@@ -1,14 +1,16 @@
 import { useApp } from '../../hooks/useApp'
 import { useNavigate } from 'react-router-dom'
 import { disconnectRoomByGameId } from '../../data/tuttifrutiAPI'
+import Connector from '../../hubs/signalr-connection'
 import Swal from 'sweetalert2'
 import '../../styles/header.css'
 
 export const GameHeader = () => {
     const navigate = useNavigate();
+    const { alertDisconnectRoomUser } = Connector();
     const { userLogued, setUserLogued } = useApp();
     const { idroom, idgame } = userLogued;
-
+    
     const handleDisconnectGame = async () => {
         Swal.fire({
             title: "¿Está seguro de salir del juego?",
@@ -28,6 +30,7 @@ export const GameHeader = () => {
                     setUserLogued({
                         ...userLogued, idroom: 0, host: false, idgame: 0
                     });
+                    alertDisconnectRoomUser(idgame);
                     Swal.fire({
                         title: "Desconectado!",
                         text: "Te has desconectado de la sala.",

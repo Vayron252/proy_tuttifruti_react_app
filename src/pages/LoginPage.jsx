@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getUserByCredentials } from '../data/tuttifrutiAPI'
 import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../hooks/useApp'
-import Swal from 'sweetalert2'
 import Connector from '../hubs/signalr-connection'
+import Swal from 'sweetalert2'
 import '../styles/stylespages.css'
 
 const LoginPage = () => {
   const { userLogued, setUserLogued } = useApp();
-  const { events, generarConexionUsuario } = Connector();
+  const { events, conecctionAppUser } = Connector();
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState({
     celular: '', password: ''
   });
+
+  useEffect(() => {
+    const createConectionUser = (_, msg) => {
+      console.log(msg);
+    };
+    events(createConectionUser);
+  }, [events]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,35 +29,34 @@ const LoginPage = () => {
     });
   }
 
-  useEffect(() => {
-    const createConectionUser = (_, msg) => {
-      console.log(msg);
-    };
-    events(createConectionUser);
-  }, [events]);
-  
   const handleLoguearUsuario = async (e) => {
     e.preventDefault();
     const { celular, password } = usuario;
-    const info_bd = await getUserByCredentials(celular, password);
-    const { data } = info_bd;
-    if (Object.keys(data).length > 0) {
-      const { idusuario, nombreusu, apellidousu, apodousu } = data;
-      setUserLogued({
-        ...userLogued, iduser: idusuario, nickname: apodousu
-      });
-      Swal.fire({
-        title: "Bienvenido",
-        text: `${nombreusu} ${apellidousu}`,
-        icon: "success",
-        allowOutsideClick: false
-      }).then((result) => {
-        if (result.isConfirmed) {
-          generarConexionUsuario(idusuario);
-          navigate('/menu');
+    Swal.fire({
+      title: "Mensaje al usuario",
+      text: "Obteniendo datos...",
+      icon: "info",
+      allowOutsideClick: false,
+      didOpen: async () => {
+        Swal.showLoading();
+        const info_bd = await getUserByCredentials(celular, password);
+        const { data } = info_bd;
+        if (Object.keys(data).length > 0) {
+          const { idusuario, apodousu } = data;
+          setUserLogued({
+            ...userLogued, iduser: idusuario, nickname: apodousu
+          });
+          conecctionAppUser(idusuario);
+          setTimeout(() => {
+            Swal.clickConfirm();
+          }, 1500);
         }
-      });
-    }
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/menu');
+      }
+    });
   }
 
   return (
@@ -75,7 +81,7 @@ const LoginPage = () => {
           <button type="submit" className="login__boton"><i className="fa-solid fa-right-to-bracket"></i> Ingresar</button>
         </div>
       </form>
-      <p className="login__registro__user">¿No tienes una cuenta?, 
+      <p className="login__registro__user">¿No tienes una cuenta?,
         <Link className="login__registro__user__link" to={"/user/register"}> Regístrate Aquí</Link>
       </p>
     </div>

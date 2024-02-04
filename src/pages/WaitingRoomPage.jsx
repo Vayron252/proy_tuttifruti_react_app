@@ -22,7 +22,7 @@ export const loaderWaitingRoom = async ({ params }) => {
 const WaitingRoomPage = () => {
     const navigate = useNavigate();
     const [startGame, setStartGame] = useState(false);
-    const { events } = Connector();
+    const { events, alertReadyRoomUser } = Connector();
     const [players, setPlayers] = useState([]);
     const { userLogued } = useApp();
     const { hall } = useLoaderData();
@@ -38,14 +38,22 @@ const WaitingRoomPage = () => {
     }, [])
 
     useEffect(() => {
-        const listarJugadores = async (_, msg) => {
+        const alertJoinRoomUser = async (_, msg) => {
             await handleAgainListPlayers();
             toast.success(msg);
         }
-        const disconnectRoom = (_, msg) => {
-            disconnectServerHost();
+        const alertReadyRoomUser = async (_, msg) => {
+            if (msg === "URY") {
+                await handleAgainListPlayers();
+            }
         }
-        events(null, null, listarJugadores, disconnectRoom);
+        const disconnectRoom = async (_, msg) => {
+            // disconnectServerHost();
+            await handleAgainListPlayers();
+            
+            toast.success(msg);
+        }
+        events(null, null, alertJoinRoomUser, alertReadyRoomUser, disconnectRoom);
     }, [events]);
 
     const handleAgainListPlayers = async () => {
@@ -77,6 +85,9 @@ const WaitingRoomPage = () => {
     const handleChangeReady = async (ready, idgame) => {
         const oGame = { idjuego: idgame, flglistojgo: ready };
         const info = await readyGameByRoom(oGame);
+        const { data } = info;
+        const { idsala, idusuario } = data;
+        alertReadyRoomUser(idsala, idusuario);
     }
 
     const verifyAllPlayersReady = (listPlayers) => {

@@ -18,12 +18,26 @@ const getListHalls = async () => {
 }
 
 const JoinHallPage = () => {
-    const { events } = Connector();
+    const { events, joinSpecificRoom } = Connector();
     const navigate = useNavigate();
     const { userLogued, setUserLogued } = useApp();
     const { iduser } = userLogued;
     const { halls } = useLoaderData();
     const [rooms, setRooms] = useState([]);
+
+    useEffect(() => {
+      const newRooms = halls.map(h => ({ idsala: h.idsala, nombresal: h.nombresal }));
+      setRooms(newRooms);
+    }, []);
+
+    useEffect(() => {
+        const listarRooms = async (_, msg) => {
+            if (msg === "LRS") {
+                await handleListRooms();
+            }
+        }
+        events(null, listarRooms);
+    }, [events]);
 
     const handleJoinHall = async (idsala) => {
         const game = {
@@ -35,21 +49,9 @@ const JoinHallPage = () => {
         setUserLogued({
             ...userLogued, idroom: idsala, host: false, idgame: idjuego
         });
+        joinSpecificRoom(idsala, iduser);
         navigate(`/room/${idsala}`);
     }
-
-    useEffect(() => {
-      const newRooms = halls.map(h => ({ idsala: h.idsala, nombresal: h.nombresal }));
-      setRooms(newRooms);
-    }, []);
-
-    useEffect(() => {
-        const listarRooms = async (_, msg) => {
-            console.log(msg);
-            await handleListRooms();
-        }
-        events(null, listarRooms);
-    }, [events]);
 
     const handleListRooms = async () => {
         const halls = await getListHalls();

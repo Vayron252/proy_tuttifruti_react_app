@@ -30,6 +30,7 @@ const NewHallPage = () => {
     const CategoryRoom = categories.map(categ => ({ titulocat: categ.valor, fecregistrocat: fecRegistro, flgactivocat: true }));
     const objHall = { oHallCreateDTO: Hall, oGameCreateDTO: Game, oCategorysDTO: CategoryRoom }
     const info = await registerHall(objHall);
+    
     const { data } = info;
     const { idsala, idjuego } = data;
     setUserLogued({
