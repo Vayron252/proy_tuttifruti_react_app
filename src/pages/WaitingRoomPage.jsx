@@ -48,9 +48,12 @@ const WaitingRoomPage = () => {
             }
         }
         const disconnectRoom = async (_, msg) => {
-            // disconnectServerHost();
+            if (msg === "DISROOM") {
+                disconnectServerHost();
+                return;
+            }
+
             await handleAgainListPlayers();
-            
             toast.success(msg);
         }
         events(null, null, alertJoinRoomUser, alertReadyRoomUser, disconnectRoom);
@@ -93,6 +96,33 @@ const WaitingRoomPage = () => {
     const verifyAllPlayersReady = (listPlayers) => {
         const result = listPlayers.every(lp => lp.ready);
         setStartGame(result);
+    }
+
+    const handleStartGame = () => {
+        let timerInterval;
+        Swal.fire({
+            title: "Iniciando partida en ...",
+            html: "<b></b>",
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading();
+                const timer = Swal.getPopup().querySelector("b");
+                let contador = 3;
+                timerInterval = setInterval(() => {
+                    timer.textContent = `${contador}`;
+                    contador --;
+                }, 1000);
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+                console.log("I was closed by the timer");
+            }
+        });
     }
 
     return (
@@ -248,7 +278,7 @@ const WaitingRoomPage = () => {
             {host ?
                 (
                     <div className="informacion__contenedor__sala__boton">
-                        <button className="informacion__sala__iniciar__juego" disabled={!startGame} >
+                        <button onClick={handleStartGame} className="informacion__sala__iniciar__juego" disabled={!startGame} >
                             <i className="fa-solid fa-gamepad"></i> Iniciar Juego
                         </button>
                     </div>
