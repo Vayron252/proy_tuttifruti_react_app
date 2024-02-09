@@ -19,7 +19,7 @@ const LoginPage = () => {
       console.log(msg);
     };
     events(createConectionUser);
-  }, [events]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

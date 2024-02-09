@@ -37,7 +37,7 @@ const JoinHallPage = () => {
             }
         }
         events(null, listarRooms);
-    }, [events]);
+    }, []);
 
     const handleJoinHall = async (idsala) => {
         const game = {

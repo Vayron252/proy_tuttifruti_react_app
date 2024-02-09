@@ -57,7 +57,7 @@ const WaitingRoomPage = () => {
             toast.success(msg);
         }
         events(null, null, alertJoinRoomUser, alertReadyRoomUser, disconnectRoom);
-    }, [events]);
+    }, []);
 
     const handleAgainListPlayers = async () => {
         const info = await getPlayersByRoomId(idroom);
