@@ -89,7 +89,10 @@ const WaitingRoomPage = () => {
         const oGame = { idjuego: idgame, flglistojgo: ready };
         const info = await readyGameByRoom(oGame);
         const { data } = info;
-        const { idsala, idusuario } = data;
+        const { idsala, idusuario, idronda, idrndjgo } = data;
+        setUserLogued({
+            ...userLogued, idround: idronda, idroundjgo: idrndjgo
+        });
         alertReadyRoomUser(idsala, idusuario);
     }
 
@@ -111,7 +114,7 @@ const WaitingRoomPage = () => {
                 let contador = 3;
                 timerInterval = setInterval(() => {
                     timer.textContent = `${contador}`;
-                    contador --;
+                    contador--;
                 }, 1000);
             },
             willClose: () => {

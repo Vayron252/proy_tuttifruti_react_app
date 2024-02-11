@@ -32,9 +32,9 @@ const NewHallPage = () => {
     const info = await registerHall(objHall);
     
     const { data } = info;
-    const { idsala, idjuego } = data;
+    const { idsala, idjuego, idronda, idrndjgo } = data;
     setUserLogued({
-      ...userLogued, idroom: idsala, host: true, idgame: idjuego
+      ...userLogued, idroom: idsala, host: true, idgame: idjuego, idround: idronda, idroundjgo: idrndjgo
     });
     
     if (Object.keys(data).length > 0) {
