@@ -24,7 +24,7 @@ const WaitingRoomPage = () => {
     const [startGame, setStartGame] = useState(false);
     const { events, alertReadyRoomUser } = Connector();
     const [players, setPlayers] = useState([]);
-    const { userLogued } = useApp();
+    const { userLogued, setUserLogued } = useApp();
     const { hall } = useLoaderData();
     const { iduser, nickname, host, idroom } = userLogued;
     const { nombresal, cantcategsal, cantpartsal, cantrondassal, estadosal, fecregistrosal, passwordsal, catSal, juegos } = hall;
